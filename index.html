@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>روليت أفلام خالد مصعب السعيدي - IMDb Top 250</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: radial-gradient(circle, #1a1a1a 0%, #070707 100%);
+            color: #fff;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            overflow-x: hidden;
+            position: relative;
+        }
+        .user-name {
+            font-size: 20px;
+            font-weight: bold;
+            color: #ffffff;
+            background: linear-gradient(45deg, #222, #333);
+            padding: 10px 25px;
+            border-radius: 50px;
+            border: 1px solid #f5c518;
+            margin-bottom: 20px;
+            box-shadow: 0 0 15px rgba(245, 197, 24, 0.2);
+            letter-spacing: 1px;
+            z-index: 10;
+        }
+        .container {
+            background: rgba(20, 20, 20, 0.9);
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 0 35px rgba(245, 197, 24, 0.2);
+            border: 2px solid #f5c518;
+            text-align: center;
+            backdrop-filter: blur(10px);
+            max-width: 650px;
+            width: 90%;
+            z-index: 10;
+            transition: transform 0.3s ease;
+        }
+        h1 {
+            font-size: 26px;
+            margin-bottom: 5px;
+            color: #f5c518;
+            text-shadow: 0 0 10px rgba(245, 197, 24, 0.3);
+        }
+        .counter {
+            font-size: 14px;
+            color: #aaa;
+            margin-bottom: 25px;
+        }
+        #counter-num { color: #f5c518; font-weight: bold; }
+        .display-box {
+            background: #0b0b0b;
+            border: 2px solid #222;
+            border-radius: 15px;
+            height: 240px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 25px;
+            padding: 20px;
+            box-shadow: inset 0 0 30px rgba(0,0,0,1);
+            position: relative;
+        }
+        #rank {
+            font-size: 22px;
+            color: #f5c518;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        #result {
+            font-size: 28px;
+            font-weight: 800;
+            color: #00ffcc;
+            text-shadow: 0 0 20px rgba(0, 255, 210, 0.4);
+            line-height: 1.4;
+            transition: all 0.1s ease;
+        }
+        .btn-group {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        button {
+            background: linear-gradient(45deg, #f5c518, #ff9900);
+            color: #000;
+            border: none;
+            padding: 16px 40px;
+            font-size: 20px;
+            font-weight: bold;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(245, 197, 24, 0.3);
+            transition: all 0.2s ease;
+            width: 100%;
+        }
+        button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(245, 197, 24, 0.5);
+        }
+        button:disabled {
+            background: #444;
+            color: #888;
+            box-shadow: none;
+            cursor: not-allowed;
+            transform: none;
+        }
+        .watch-btn {
+            background: linear-gradient(45deg, #12c2e9, #c471ed, #f64f59);
+            color: white;
+            padding: 12px 30px;
+            font-size: 18px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: bold;
+            display: none;
+            box-shadow: 0 4px 15px rgba(196, 113, 237, 0.4);
+            transition: all 0.3s ease;
+            animation: pulse 1.5s infinite;
+        }
+        .watch-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(196, 113, 237, 0.7);
+        }
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.03); }
+            100% { transform: scale(1); }
+        }
+        .particle {
+            position: fixed;
+            pointer-events: none;
+            opacity: 0;
+            z-index: 99;
+            font-size: 24px;
+            animation: fly 1.2s ease-out forwards;
+        }
+        @keyframes fly {
+            0% { transform: translate(0, 0) rotate(0deg); opacity: 1; }
+            100% { transform: translate(var(--mx), var(--my)) rotate(var(--mr)); opacity: 0; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="user-name">👤 مستخدم البرنامج: خالد مصعب السعيدي</div>
+
+    <div class="container" id="main-card">
+        <h1>روليت أفلام IMDb الـ 250 🔥</h1>
+        <div class="counter">الأفلام المتبقية: <span id="counter-num">250</span> / 250</div>
+        
+        <div class="display-box">
+            <div id="rank">الترتيب: -</div>
+            <div id="result">اضغط لفتح فيلم الليلة!</div>
+        </div>
+        
+        <div class="btn-group">
+            <button id="spin-btn" onclick="spin()">لف العجلة واشحن الفشار 🍿</button>
+            <a id="watch-link" class="watch-btn" target="_blank" href="#">🎬 مشاهدة الفيلم على iWaatch</a>
+        </div>
+    </div>
+
+    <script>
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        function playTick() {
+            let osc = audioCtx.createOscillator();
+            let gain = audioCtx.createGain();
+            osc.connect(gain); gain.connect(audioCtx.destination);
+            osc.type = 'sine'; osc.frequency.setValueAtTime(600, audioCtx.currentTime);
+            gain.gain.setValueAtTime(0.1, audioCtx.currentTime);
+            gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.05);
+            osc.start(); osc.stop(audioCtx.currentTime + 0.06);
+        }
+        function playWin() {
+            let notes = [440, 554, 659, 880];
+            notes.forEach((freq, index) => {
+                let osc = audioCtx.createOscillator();
+                let gain = audioCtx.createGain();
+                osc.connect(gain); gain.connect(audioCtx.destination);
+                osc.frequency.setValueAtTime(freq, audioCtx.currentTime + index * 0.1);
+                gain.gain.setValueAtTime(0.1, audioCtx.currentTime + index * 0.1);
+                gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + index * 0.1 + 0.3);
+                osc.start(audioCtx.currentTime + index * 0.1); osc.stop(audioCtx.currentTime + index * 0.1 + 0.3);
+            });
+        }
+
+        function spawnParticles() {
+            const emojis = ['🍿', '✨', '🎬', '🔥', '🎉'];
+            for(let i=0; i<40; i++) {
+                let p = document.createElement('div');
+                p.className = 'particle';
+                p.innerText = emojis[Math.floor(Math.random() * emojis.length)];
+                p.style.left = Math.random() * 100 + 'vw';
+                p.style.top = Math.random() * 100 + 'vh';
+                p.style.setProperty('--mx', (Math.random() * 400 - 200) + 'px');
+                p.style.setProperty('--my', (Math.random() * 400 - 200) + 'px');
+                p.style.setProperty('--mr', (Math.random() * 360) + 'deg');
+                document.body.appendChild(p);
+                setTimeout(() => p.remove(), 1200);
+            }
+        }
+
+        const imdbMovies = {
+            1: "The Shawshank Redemption", 2: "The Godfather", 3: "The Dark Knight", 4: "The Godfather Part II",
+            5: "12 Angry Men", 6: "Schindler's List", 7: "The Lord of the Rings: The Return of the King", 8: "Pulp Fiction",
+            9: "The Lord of the Rings: The Fellowship of the Ring", 10: "The Good, the Bad and the Ugly", 11: "Forrest Gump",
+            12: "The Lord of the Rings: The Two Towers", 13: "Fight Club", 14: "Inception", 15: "Star Wars: Episode V",
+            16: "The Matrix", 17: "Goodfellas", 18: "One Flew Over the Cuckoo's Nest", 19: "Seven Samurai", 20: "Se7en",
+            21: "It's a Wonderful Life", 22: "The Silence of the Lambs", 23: "Saving Private Ryan", 24: "City of God",
+            25: "Life Is Beautiful", 26: "The Green Mile", 27: "Interstellar", 28: "Star Wars: Episode IV",
+            29: "Terminator 2: Judgment Day", 30: "Back to the Future", 31: "Spirited Away", 32: "The Pianist",
+            33: "Psycho", 34: "Parasite", 35: "The Lion King", 36: "Gladiator", 37: "Léon: The Professional",
+            38: "American History X", 39: "The Departed", 40: "Whiplash", 41: "The Prestige", 42: "The Usual Suspects",
+            43: "Casablanca", 44: "Grave of the Fireflies", 45: "Harakiri", 46: "The Intouchables", 47: "Modern Times",
+            48: "Cinema Paradiso", 49: "Once Upon a Time in the West", 50: "Rear Window", 51: "Alien", 52: "City Lights",
+            53: "Apocalypse Now", 54: "Memento", 55: "Django Unchained", 56: "Raiders of the Lost Ark", 57: "WALL·E",
+            58: "The Lives of Others", 59: "Sunset Blvd.", 60: "Paths of Glory", 61: "Avengers: Infinity War",
+            62: "The Shining", 63: "The Great Dictator", 64: "Witness for the Prosecution", 65: "Spider-Man: Into the Spider-Verse",
+            66: "Aliens", 67: "American Beauty", 68: "The Dark Knight Rises", 69: "Dr. Strangelove", 70: "Inglourious Basterds",
+            71: "Amadeus", 72: "Coco", 73: "Toy Story", 74: "Braveheart", 75: "Joker", 76: "Das Boot", 77: "Avengers: Endgame",
+            78: "Princess Mononoke", 79: "Good Will Hunting", 80: "Once Upon a Time in America", 81: "Your Name.",
+            82: "Requiem for a Dream", 83: "Toy Story 3", 84: "High and Low", 85: "Capernaum", 86: "Singin' in the Rain",
+            87: "Star Wars: Episode VI", 88: "Eternal Sunshine of the Spotless Mind", 89: "Come and See", 90: "The Hunt",
+            91: "3 Idiots", 92: "2001: A Space Odyssey", 93: "Full Metal Jacket", 94: "Lawrence of Arabia", 95: "The Apartment",
+            96: "North by Northwest", 97: "Vertigo", 98: "Citizen Kane", 99: "Double Indemnity", 100: "Scarface",
+            101: "Lawrence of Arabia", 102: "Amadeus", 103: "Taxi Driver", 104: "To Kill a Mockingbird", 105: "The Sting",
+            106: "Full Metal Jacket", 107: "Braveheart", 108: "The Bicycle Thief", 109: "The Kid", 110: "The Clockwork Orange",
+            111: "Snatch", 112: "Singin' in the Rain", 113: "Toy Story 3", 114: "Inglourious Basterds", 115: "The Apartment",
+            116: "L.A. Confidential", 117: "Scarface", 118: "Metropolis", 119: "Indiana Jones and the Last Crusade", 120: "Up",
+            121: "Heat", 122: "Batman Begins", 123: "Die Hard", 124: "Downfall", 125: "Green Book",
+            126: "Unforgiven", 127: "The Wolf of Wall Street", 128: "Shutter Island", 129: "The Truman Show", 130: "Casino",
+            131: "The Sixth Sense", 132: "Jurassic Park", 133: "A Beautiful Mind", 134: "No Country for Old Men", 135: "Kill Bill: Vol. 1",
+            136: "The Thing", 137: "The Elephant Man", 138: "Finding Nemo", 139: "Gran Torino", 140: "V for Vendetta",
+            141: "Lock, Stock and Two Smoking Barrels", 142: "The Big Lebowski", 143: "How to Train Your Dragon", 144: "Warrior", 145: "The Deer Hunter",
+            146: "Blade Runner 2049", 147: "Fargo", 148: "Gone with the Wind", 149: "The Grand Budapest Hotel", 150: "The Third Man",
+            151: "The Sixth Sense", 152: "The Thing", 153: "The Great Escape", 154: "Chinatown", 155: "Pan's Labyrinth",
+            156: "Raging Bull", 157: "The Gold Rush", 158: "Catch Me If You Can", 159: "On the Waterfront", 160: "Platoon",
+            161: "Ben-Hur", 162: "The Terminator", 163: "The Wizard of Oz", 164: "Rush", 165: "Logan",
+            166: "Into the Wild", 167: "The Exorcist", 168: "The Incredibles", 169: "Spotlight", 170: "Prisoners",
+            171: "Ford v Ferrari", 172: "Rocky", 173: "The King's Speech", 174: "Monsters, Inc.", 175: "Slumdog Millionaire",
+            176: "The Revenant", 177: "Jaws", 178: "The Social Network", 179: "Arrival", 180: "Mad Max: Fury Road",
+            181: "Hacksaw Ridge", 182: "Before Sunrise", 183: "Before Sunset", 184: "The Hateful Eight", 185: "Harry Potter and the Deathly Hallows: Part 2",
+            186: "The Truman Show", 187: "The Big Lebowski", 188: "Blade Runner", 189: "Ratatouille", 190: "Jurassic Park",
+            191: "Kill Bill: Vol. 2", 192: "The Irish Man", 193: "The Invisible Guest", 194: "Soul", 195: "Dunkirk",
+            196: "Manchester by the Sea", 197: "All Quiet on the Western Front", 198: "The Battle of Algiers", 199: "A Nightmare on Elm Street", 200: "Gangs of New York",
+            201: "The Princess Bride", 202: "Cast Away", 203: "Barry Lyndon", 204: "In the Mood for Love", 205: "The Graduate",
+            206: "The Bourne Ultimatum", 207: "Sin City", 208: "The Celebration", 209: "High Noon", 210: "The Perks of Being a Wallflower",
+            211: "The Deer Hunter", 212: "Platoon", 213: "The Exorcist", 214: "The Third Man", 215: "Before Sunrise",
+            216: "Dead Poets Society", 217: "The Maltese Falcon", 218: "Network", 219: "Stand by Me", 220: "Primal Fear",
+            221: "Howl's Moving Castle", 222: "The Grapes of Wrath", 223: "Memories of Murder", 224: "12 Years a Slave", 225: "The Help",
+            226: "The 400 Blows", 227: "The Handmaiden", 228: "Aladdin", 229: "Tangerines", 230: "The Hustler",
+            231: "The Night of the Hunter", 232: "X-Men: Days of Future Past", 233: "The Cabin in the Woods", 234: "Magnolia", 235: "The Royal Tenenbaums",
+            236: "The Terminator", 237: "The Wizard of Oz", 238: "The Truman Show", 239: "The Big Lebowski", 240: "Ben-Hur",
+            241: "Monsters, Inc.", 242: "The Deer Hunter", 243: "Platoon", 244: "The Exorcist", 245: "The Third Man",
+            246: "Before Sunrise", 247: "Once Upon a Time in America", 248: "The Prestige", 249: "The Departed", 250: "Whiplash"
+        };
+
+        let movieTitles = [];
+        for (let i = 1; i <= 250; i++) {
+            movieTitles.push({ rank: i, name: imdbMovies[i] });
+        }
+
+        const resultDiv = document.getElementById('result');
+        const rankDiv = document.getElementById('rank');
+        const counterSpan = document.getElementById('counter-num');
+        const spinBtn = document.getElementById('spin-btn');
+        const watchLink = document.getElementById('watch-link');
+        const mainCard = document.getElementById('main-card');
+
+        function spin() {
+            if (audioCtx.state === 'suspended') audioCtx.resume();
+            watchLink.style.display = "none";
+            
+            if (movieTitles.length === 0) {
+                alert("تم سحب جميع الأفلام! إعادة تصفير القائمة.");
+                location.reload();
+                return;
+            }
+
+            spinBtn.disabled = true;
+            let clicks = 0;
+            let duration = 20;
+            
+            let interval = setInterval(() => {
+                let randomTemp = Math.floor(Math.random() * 250) + 1;
+                rankDiv.innerText = `الترتيب: #${randomTemp}`;
+                resultDiv.innerText = "جاري السحب... 🍿";
+                resultDiv.style.transform = `scale(${Math.random() * 0.1 + 0.95})`;
+                playTick();
+                clicks++;
+                
+                if (clicks > duration) {
+                    clearInterval(interval);
+                    
+                    let randomIndex = Math.floor(Math.random() * movieTitles.length);
+                    let finalMovie = movieTitles[randomIndex];
+                    
+                    movieTitles.splice(randomIndex, 1);
+                    
+                    rankDiv.innerText = `الترتيب الرسمي في IMDb: #${finalMovie.rank}`;
+                    resultDiv.innerText = finalMovie.name;
+                    resultDiv.style.transform = "scale(1.1)";
+                    counterSpan.innerText = movieTitles.length;
+                    
+                    playWin();
+                    spawnParticles();
+                    mainCard.style.transform = "scale(1.02)";
+                    setTimeout(() => mainCard.style.transform = "scale(1)", 300);
+
+                    let searchUrl = `https://iwaatch.com/search/${encodeURIComponent(finalMovie.name)}`;
+                    watchLink.href = searchUrl;
+                    watchLink.style.display = "block";
+                    
+                    spinBtn.disabled = false;
+                }
+            }, 60);
+        }
+    </script>
+</body>
+</html>
